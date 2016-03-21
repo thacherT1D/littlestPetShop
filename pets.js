@@ -1,35 +1,31 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var petsPath = path.join(__dirname, 'pets.json');
-var node = path.basename(process.argv[0]);
-var file = path.basename(process.argv[1]);
-var cmd = process.argv[2];
+const fs = require('fs');
+const path = require('path');
+const petsPath = path.join(__dirname, 'pets.json');
+const node = path.basename(process.argv[0]);
+const file = path.basename(process.argv[1]);
+const cmd = process.argv[2];
 
 if (cmd === 'read') {
-  fs.readFile(petsPath, 'utf8', function(err, data) {
+  fs.readFile(petsPath, 'utf8', function (err, data) {
     if (err) {
       throw err;
     }
     var pets = JSON.parse(data);
     var index = process.argv[3];
 
-    if(!index) {
+    if (!index) {
       console.log(pets);
       process.exit(1);
-    }
-
-    else if (index >= 0 && index < pets.length) {
+    } else if (index >= 0 && index < pets.length) {
       console.log(pets[index]);
-    }
-    else {
+    } else {
       console.error(`Usage: ${node} ${file} read INDEX`);
       process.exit(1);
     }
   });
-}
-else if (cmd === 'create') {
+} else if (cmd === 'create') {
   fs.readFile(petsPath, 'utf8', function(readErr, data) {
     if (readErr) {
       throw readErr;
@@ -43,20 +39,18 @@ else if (cmd === 'create') {
       console.error(`Usage: ${node} ${file} ${cmd} AGE KIND NAME`);
       process.exit(1);
     }
-    petAge = parseInt(petAge,10);
-    pets.push({age: petAge, kind: petKind, name: petName});
+    petAge = parseInt(petAge, 10);
+    pets.push({ age: petAge, kind: petKind, name: petName });
     var petsJSON = JSON.stringify(pets);
 
-    fs.writeFile(petsPath, petsJSON, function(writeErr) {
+    fs.writeFile(petsPath, petsJSON, function (writeErr) {
       if (writeErr) {
         throw writeErr;
       }
-    console.log(pets);
     });
   });
-}
-else if (cmd === 'update') {
-  fs.readFile(petsPath, 'utf8', function(readErr, data) {
+} else if (cmd === 'update') {
+  fs.readFile(petsPath, 'utf8', function (readErr, data) {
     if (readErr) {
       throw readErr;
     }
@@ -66,27 +60,44 @@ else if (cmd === 'update') {
     var petKind = process.argv[5];
     var petName = process.argv[6];
 
-    if ((!index || !petAge || !petKind || !petName) || ((index >= 0 && index < pets.length) !== true))  {
+    if ((!index || !petAge || !petKind || !petName) || ((index >= 0 && index < pets.length) !== true)) {
       console.error(`Usage: ${node} ${file} ${cmd} INDEX AGE KIND NAME`);
       process.exit(1);
     }
-    petAge = parseInt(petAge,10);
-    // console.log(pets[index]);
-    // pets[index] = {age: petAge, kind: petKind, name: petName,}
-    // console.log(pets[index]);
-
-    pets[index] = ({age: petAge, kind: petKind, name: petName});
+    petAge = parseInt(petAge, 10);
+    pets[index] = ({ age: petAge, kind: petKind, name: petName });
     var petsJSON = JSON.stringify(pets);
 
-    fs.writeFile(petsPath, petsJSON, function(writeErr) {
+    fs.writeFile(petsPath, petsJSON, function (writeErr) {
       if (writeErr) {
         throw writeErr;
       }
-    console.log(pets);
+      console.log(pets);
     });
   });
-}
-else {
-  console.error(`Usage: ${node} ${file} [read | create | update]`);
+} else if (cmd === 'destroy') {
+  fs.readFile(petsPath, 'utf8', function (readErr, data) {
+    if (readErr) {
+      throw readErr;
+    }
+    var pets = JSON.parse(data);
+    var index = process.argv[3];
+
+    if (!index) {
+      console.error(`Usage: ${node} ${file} ${cmd} INDEX`);
+      process.exit(1);
+    }
+
+    pets.splice(index, 1);
+    var petsJSON = JSON.stringify(pets);
+
+    fs.writeFile(petsPath, petsJSON, function (writeErr) {
+      if (writeErr) {
+        throw writeErr;
+      }
+    });
+  });
+} else {
+  console.error(`Usage: ${node} ${file} [read | create | update | destroy]`);
   process.exit(1);
 }
