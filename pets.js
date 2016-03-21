@@ -43,7 +43,8 @@ else if (cmd === 'create') {
       console.error(`Usage: ${node} ${file} ${cmd} AGE KIND NAME`);
       process.exit(1);
     }
-
+    petAge = parseInt(petAge,10);
+    console.log(petAge);
     pets.push({age: petAge, kind: petKind, name: petName});
     // console.log(pets);
     var petsJSON = JSON.stringify(pets);
@@ -53,7 +54,7 @@ else if (cmd === 'create') {
         throw writeErr;
       }
     console.log(pets);
-    });
+  });
 
   });
 }
