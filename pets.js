@@ -45,15 +45,15 @@ else if (cmd === 'create') {
     }
 
     pets.push({age: petAge, kind: petKind, name: petName});
-    console.log(pets);
-    // var petsJSON = JSON.stringify(pets);
-
-    // fs.writeFile(petsPath, petsJSON, function(writeErr) {
-    //   if (writeErr) {
-    //     throw writeErr;
-    //   }
     // console.log(pets);
-    // });
+    var petsJSON = JSON.stringify(pets);
+
+    fs.writeFile(petsPath, petsJSON, function(writeErr) {
+      if (writeErr) {
+        throw writeErr;
+      }
+    console.log(pets);
+    });
 
   });
 }
