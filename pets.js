@@ -39,32 +39,20 @@ if (cmd === 'read') {
       console.error(`Usage: ${node} ${file} ${cmd} AGE KIND NAME`);
       process.exit(1);
     }
-<<<<<<< HEAD
+
     petAge = parseInt(petAge, 10);
     pets.push({ age: petAge, kind: petKind, name: petName });
-=======
-    petAge = parseInt(petAge,10);
-    pets.push({age: petAge, kind: petKind, name: petName});
->>>>>>> 7cc75dfad2683cb56621486f7b584c033314820b
+
     var petsJSON = JSON.stringify(pets);
 
     fs.writeFile(petsPath, petsJSON, function (writeErr) {
       if (writeErr) {
         throw writeErr;
       }
-<<<<<<< HEAD
     });
   });
 } else if (cmd === 'update') {
   fs.readFile(petsPath, 'utf8', function (readErr, data) {
-=======
-    console.log(pets);
-    });
-  });
-}
-else if (cmd === 'update') {
-  fs.readFile(petsPath, 'utf8', function(readErr, data) {
->>>>>>> 7cc75dfad2683cb56621486f7b584c033314820b
     if (readErr) {
       throw readErr;
     }
@@ -73,7 +61,6 @@ else if (cmd === 'update') {
     var petAge = process.argv[4];
     var petKind = process.argv[5];
     var petName = process.argv[6];
-<<<<<<< HEAD
 
     if ((!index || !petAge || !petKind || !petName) || ((index >= 0 && index < pets.length) !== true)) {
       console.error(`Usage: ${node} ${file} ${cmd} INDEX AGE KIND NAME`);
@@ -114,30 +101,5 @@ else if (cmd === 'update') {
   });
 } else {
   console.error(`Usage: ${node} ${file} [read | create | update | destroy]`);
-=======
-
-    if ((!index || !petAge || !petKind || !petName) || ((index >= 0 && index < pets.length) !== true))  {
-      console.error(`Usage: ${node} ${file} ${cmd} INDEX AGE KIND NAME`);
-      process.exit(1);
-    }
-    petAge = parseInt(petAge,10);
-    // console.log(pets[index]);
-    // pets[index] = {age: petAge, kind: petKind, name: petName,}
-    // console.log(pets[index]);
-
-    pets[index] = ({age: petAge, kind: petKind, name: petName});
-    var petsJSON = JSON.stringify(pets);
-
-    fs.writeFile(petsPath, petsJSON, function(writeErr) {
-      if (writeErr) {
-        throw writeErr;
-      }
-    console.log(pets);
-    });
-  });
-}
-else {
-  console.error(`Usage: ${node} ${file} [read | create | update]`);
->>>>>>> 7cc75dfad2683cb56621486f7b584c033314820b
   process.exit(1);
 }
