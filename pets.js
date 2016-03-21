@@ -70,9 +70,20 @@ else if (cmd === 'update') {
       console.error(`Usage: ${node} ${file} ${cmd} INDEX AGE KIND NAME`);
       process.exit(1);
     }
+    petAge = parseInt(petAge,10);
+    // console.log(pets[index]);
+    // pets[index] = {age: petAge, kind: petKind, name: petName,}
+    // console.log(pets[index]);
 
-    console.log('solid entry!')
+    pets[index] = ({age: petAge, kind: petKind, name: petName});
+    var petsJSON = JSON.stringify(pets);
 
+    fs.writeFile(petsPath, petsJSON, function(writeErr) {
+      if (writeErr) {
+        throw writeErr;
+      }
+    console.log(pets);
+    });
   });
 }
 else {
