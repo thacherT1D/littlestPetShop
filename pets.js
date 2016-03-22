@@ -1,7 +1,6 @@
 //FOR shebag challenge
 //#!/usr/bin/env node
 // chmod +x pets.js
-
 'use strict';
 
 var fs = require('fs');
