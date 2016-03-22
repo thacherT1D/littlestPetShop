@@ -14,23 +14,23 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
 });
 
 const handleRequest = (req, res) => {
+  var petRegExp = /^\/pets\/(.*)$/;
+  var matches = req.url.match(petRegExp);
+
+
   if (req.url === '/pets') {
-    // res.statusCode = 200;
+    res.statusCode = 200;
     res.end(JSON.stringify(pets));
-  } else if (req.url === '/pets/0') {
-    res.end(JSON.stringify(pets[0]));
-  } else if (req.url === '/pets/1') {
-    res.end(JSON.stringify(pets[1]));
-  } else if (req.url === '/pets/2') {
-    res.setHeader('Content-Type', 'text/plain');
-    // res.statusCode = 404;
-    res.end('Not Found');
-  } else if (req.url === '/pets/-1') {
-    res.setHeader('Content-Type', 'text/plain');
-    // res.statusCode = 404;
-    res.end('Not Found');
+  } else if (matches) {
+      var id = matches[1];
+      if(id >= 0 && id < pets.length){
+        res.end(JSON.stringify(pets[id]));
+      } else {
+        res.end('No Pet At that ID');
+      }
   } else {
-    res.end(req.url);
+    res.statusCode = 404;
+    res.end('Not Found');
   }
 };
 
