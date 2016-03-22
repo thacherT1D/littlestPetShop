@@ -1,12 +1,7 @@
-//USING AJAX??
 // $(document).ready(function() {
 //   'use strict';
 //
-//   $.ajax({
-//     url: './pets',
-//     method: 'GET',
-//     success: function(data) {};
-//   });
+//
 // });
 
 
@@ -17,10 +12,22 @@ var handleRequest = function(req, res) {
   // res.setHeader("Content-Type", "text/plain");
   // res.end("Hi, I'll take two packets of sugar");
   if(req.url === '/pets') {
-    // res.setHeader("Content-Type", "application/json");
-    // res.statusCode = 200;
-    res.end("/pets");
+    res.setHeader("Content-Type", "application/json");
+    res.statusCode = 200;
+    res.setEncoding('utf8');
+    // res.end("/pets");
+
+    $.ajax({
+      url: '/pets.json',
+      method: 'GET',
+      success: function(data) {
+        console.log(data);
+      }
+    });
+
+
   } else if (req.url === '/pets/0') {
+
     res.end('/pets/0');
   } else if (req.url === '/pets/1') {
     res.end('/pets/1');
