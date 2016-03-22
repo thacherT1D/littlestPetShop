@@ -6,14 +6,15 @@ const petsPath = path.join(__dirname, 'pets.json');
 const node = path.basename(process.argv[0]);
 const file = path.basename(process.argv[1]);
 const cmd = process.argv[2];
+let petAge2 = 0;
 
 if (cmd === 'read') {
-  fs.readFile(petsPath, 'utf8', function (err, data) {
+  fs.readFile(petsPath, 'utf8', (err, data) => {
     if (err) {
       throw err;
     }
-    var pets = JSON.parse(data);
-    var index = process.argv[3];
+    const pets = JSON.parse(data);
+    const index = process.argv[3];
 
     if (!index) {
       console.log(pets);
@@ -26,64 +27,51 @@ if (cmd === 'read') {
     }
   });
 } else if (cmd === 'create') {
-  fs.readFile(petsPath, 'utf8', function(readErr, data) {
+  fs.readFile(petsPath, 'utf8', (readErr, data) => {
     if (readErr) {
       throw readErr;
     }
-    var pets = JSON.parse(data);
-    var petAge = process.argv[3];
-    var petKind = process.argv[4];
-    var petName = process.argv[5];
+    const pets = JSON.parse(data);
+    const petAge = process.argv[3];
+    const petKind = process.argv[4];
+    const petName = process.argv[5];
 
     if (!petAge || !petKind || !petName) {
       console.error(`Usage: ${node} ${file} ${cmd} AGE KIND NAME`);
       process.exit(1);
     }
-<<<<<<< HEAD
-    petAge = parseInt(petAge, 10);
-    pets.push({ age: petAge, kind: petKind, name: petName });
-=======
-    petAge = parseInt(petAge,10);
-    pets.push({age: petAge, kind: petKind, name: petName});
->>>>>>> 7cc75dfad2683cb56621486f7b584c033314820b
-    var petsJSON = JSON.stringify(pets);
 
-    fs.writeFile(petsPath, petsJSON, function (writeErr) {
+    petAge2 = parseInt(petAge, 10);
+    pets.push({ age: petAge2, kind: petKind, name: petName });
+
+    const petsJSON = JSON.stringify(pets);
+
+    fs.writeFile(petsPath, petsJSON, (writeErr) => {
       if (writeErr) {
         throw writeErr;
       }
-<<<<<<< HEAD
     });
   });
 } else if (cmd === 'update') {
-  fs.readFile(petsPath, 'utf8', function (readErr, data) {
-=======
-    console.log(pets);
-    });
-  });
-}
-else if (cmd === 'update') {
-  fs.readFile(petsPath, 'utf8', function(readErr, data) {
->>>>>>> 7cc75dfad2683cb56621486f7b584c033314820b
+  fs.readFile(petsPath, 'utf8', (readErr, data) => {
     if (readErr) {
       throw readErr;
     }
-    var pets = JSON.parse(data);
-    var index = process.argv[3];
-    var petAge = process.argv[4];
-    var petKind = process.argv[5];
-    var petName = process.argv[6];
-<<<<<<< HEAD
+    const pets = JSON.parse(data);
+    const index = process.argv[3];
+    const petAge = process.argv[4];
+    const petKind = process.argv[5];
+    const petName = process.argv[6];
 
     if ((!index || !petAge || !petKind || !petName) || ((index >= 0 && index < pets.length) !== true)) {
       console.error(`Usage: ${node} ${file} ${cmd} INDEX AGE KIND NAME`);
       process.exit(1);
     }
-    petAge = parseInt(petAge, 10);
-    pets[index] = ({ age: petAge, kind: petKind, name: petName });
-    var petsJSON = JSON.stringify(pets);
+    petAge2 = parseInt(petAge, 10);
+    pets[index] = ({ age: petAge2, kind: petKind, name: petName });
+    const petsJSON = JSON.stringify(pets);
 
-    fs.writeFile(petsPath, petsJSON, function (writeErr) {
+    fs.writeFile(petsPath, petsJSON, (writeErr) => {
       if (writeErr) {
         throw writeErr;
       }
@@ -91,22 +79,22 @@ else if (cmd === 'update') {
     });
   });
 } else if (cmd === 'destroy') {
-  fs.readFile(petsPath, 'utf8', function (readErr, data) {
+  fs.readFile(petsPath, 'utf8', (readErr, data) => {
     if (readErr) {
       throw readErr;
     }
-    var pets = JSON.parse(data);
-    var index = process.argv[3];
+    const pets = JSON.parse(data);
+    const index = process.argv[3];
 
-    if (!index) {
+    if (!index || ((index >= 0 && index < pets.length) !== true)) {
       console.error(`Usage: ${node} ${file} ${cmd} INDEX`);
       process.exit(1);
     }
 
     pets.splice(index, 1);
-    var petsJSON = JSON.stringify(pets);
+    const petsJSON = JSON.stringify(pets);
 
-    fs.writeFile(petsPath, petsJSON, function (writeErr) {
+    fs.writeFile(petsPath, petsJSON, (writeErr) => {
       if (writeErr) {
         throw writeErr;
       }
@@ -114,30 +102,5 @@ else if (cmd === 'update') {
   });
 } else {
   console.error(`Usage: ${node} ${file} [read | create | update | destroy]`);
-=======
-
-    if ((!index || !petAge || !petKind || !petName) || ((index >= 0 && index < pets.length) !== true))  {
-      console.error(`Usage: ${node} ${file} ${cmd} INDEX AGE KIND NAME`);
-      process.exit(1);
-    }
-    petAge = parseInt(petAge,10);
-    // console.log(pets[index]);
-    // pets[index] = {age: petAge, kind: petKind, name: petName,}
-    // console.log(pets[index]);
-
-    pets[index] = ({age: petAge, kind: petKind, name: petName});
-    var petsJSON = JSON.stringify(pets);
-
-    fs.writeFile(petsPath, petsJSON, function(writeErr) {
-      if (writeErr) {
-        throw writeErr;
-      }
-    console.log(pets);
-    });
-  });
-}
-else {
-  console.error(`Usage: ${node} ${file} [read | create | update]`);
->>>>>>> 7cc75dfad2683cb56621486f7b584c033314820b
   process.exit(1);
 }
