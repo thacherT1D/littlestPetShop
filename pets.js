@@ -1,11 +1,15 @@
+//FOR shebag challenge
+//#!/usr/bin/env node
+// chmod +x pets.js
+
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const petsPath = path.join(__dirname, 'pets.json');
-const node = path.basename(process.argv[0]);
-const file = path.basename(process.argv[1]);
-const cmd = process.argv[2];
+var fs = require('fs');
+var path = require('path');
+var petsPath = path.join(__dirname, 'pets.json');
+var node = path.basename(process.argv[0]);
+var file = path.basename(process.argv[1]);
+var cmd = process.argv[2];
 
 if (cmd === 'read') {
   fs.readFile(petsPath, 'utf8', function (err, data) {
