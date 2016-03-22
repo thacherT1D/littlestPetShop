@@ -24,8 +24,10 @@ const handleRequest = (req, res) => {
   } else if (matches) {
       var id = matches[1];
       if(id >= 0 && id < pets.length){
+        res.statusCode = 200;
         res.end(JSON.stringify(pets[id]));
       } else {
+        res.statusCode = 404;
         res.end('No Pet At that ID');
       }
   } else {
