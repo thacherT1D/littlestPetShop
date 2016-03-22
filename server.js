@@ -1,19 +1,19 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var petsPath = path.join(__dirname, 'pets.json');
-var pets;
-var http = require('http');
+const fs = require('fs');
+const path = require('path');
+const petsPath = path.join(__dirname, 'pets.json');
+const pets;
+const http = require('http');
 
-fs.readFile(petsPath, 'utf8', function(err, data) {
+fs.readFile(petsPath, 'utf8', (err, data) => {
   if (err) {
     throw err;
   }
   pets = JSON.parse(data);
 });
 
-var handleRequest = function(req, res) {
+var handleRequest = (req, res) => {
   // res.setHeader("Content-Type", "text/plain");
   // res.end("Hi, I'll take two packets of sugar");
   if (req.url === '/pets') {
@@ -43,9 +43,9 @@ var handleRequest = function(req, res) {
   }
 };
 
-var server = http.createServer(handleRequest);
+const server = http.createServer(handleRequest);
 
-var port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 server.listen(port, function() {
   console.log('Listening...');
 
