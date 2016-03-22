@@ -1,5 +1,4 @@
-// FOR shebag challenge
-// #!/usr/bin/env node
+#!/usr/bin/env node
 // chmod +x pets.js
 
 'use strict';
