@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// chmod +x pets.js
+// chmod +x pets.js // paste this into the console
+// then each time you need to enter './pets.js cmd argv...'
 
 'use strict';
 
