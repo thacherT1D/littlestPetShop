@@ -65,3 +65,9 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
 app.listen(5000, () => {
   console.log('Go to localhost:5000/');
 });
+
+
+// app.use(function(err, req, res, next) {
+//   console.error(err.stack);
+//   res.status(500).send('Something broke!');
+// });
