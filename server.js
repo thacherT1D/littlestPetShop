@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const fs = require('fs');
 const path = require('path');
@@ -7,10 +7,10 @@ const petsPath = path.join(__dirname, 'pets.json');
 const express = require('express');
 const app = express();
 
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-var morgan = require('morgan');
+const morgan = require('morgan');
 app.use(morgan('short'));
 
 fs.readFile(petsPath, 'utf8', (err, data) => {
@@ -32,7 +32,7 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
     }
   });
 
-  app.post('/pets', function(req, res) {
+  app.post('/pets', (req, res) => {
     if (!(req.body.age) || !(req.body.kind) || !(req.body.name) || !(Number.isInteger(parseInt(req.body.age)))) {
       res.status(400);
       res.send('Bad Request');
@@ -59,13 +59,12 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
         res.send(petsString);
       }
     });
-
   });
 
   app.put('/pets/:id', (req, res) => {
     var id = Number.parseInt(req.params.id);
 
-    if(Number.isNaN(id) || id < 0 || id >= pets.length) {
+    if (Number.isNaN(id) || id < 0 || id >= pets.length) {
       return res.sendStatus(404);
     }
 
@@ -94,17 +93,16 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
         res.send(petsString);
       }
     });
-
   });
 
-  app.delete('/pets/:id', function(req, res){
+  app.delete('/pets/:id', (req, res) => {
     var id = Number.parseInt(req.params.id);
 
-    if(Number.isNaN(id) || id < 0 || id >= pets.length) {
+    if (Number.isNaN(id) || id < 0 || id >= pets.length) {
       return res.sendStatus(404);
     }
 
-    var pet = pets.splice(id, 1)[0];
+    const pet = pets.splice(id, 1)[0];
     res.send(pet);
 
     const petsString = JSON.stringify(pets);
@@ -128,13 +126,3 @@ app.listen(5000, () => {
 //   console.error(err.stack);
 //   res.status(500).send('Something broke!');
 // });
-
-// app.post('/pets', (req, res) => {
-//   var body = '';
-//   req.on('data', (chunk) => {
-//     body += chunk.toString();
-//   });
-//   req.on('end', () => {
-//     if (body !== '') {
-//       req.body = JSON.parse(body);
-//     }
