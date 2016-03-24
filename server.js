@@ -8,8 +8,48 @@ const http = require('http');
 
 fs.readFile(petsPath, 'utf8', (err, data) => {
   const pets = JSON.parse(data);
-  console.log(pets);
-  console.log(pets.length);
+  // console.log(pets);
+
+  app.post('/pets', (req, res) => {
+
+    var body = '';
+    req.on('data', function (chunk) {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      if(body !== '') {
+        req.body = JSON.parse(body);
+      }
+
+      if (!(req.body.age) || !(req.body.kind) || !(req.body.name) || !(Number.isInteger(parseInt(req.body.age)))) {
+        res.status(400);
+        res.send('Bad Request');
+      }
+      else {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+
+        newAnimal = {
+          age: parseInt(req.body.age),
+          kind: req.body.kind,
+          name: req.body.name
+        }
+
+        pets.push(newAnimal);
+      }
+
+      const petsString = JSON.stringify(pets);
+
+      fs.writeFile(petsPath, petsString, (err, data) => {
+        if (err) {
+          throw err;
+        }
+        else {
+          res.send(petsString);
+        }
+      });
+    });
+  });
 
   app.get('/pets', (req, res) => {
     res.send(pets);
@@ -28,9 +68,6 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
     }
   });
 });
-
-
-
 
 app.listen(5000, function () {
   console.log("Go to localhost:5000/");
