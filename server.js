@@ -32,7 +32,6 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
     }
   });
 
-
   app.post('/pets', function(req, res) {
     if (!(req.body.age) || !(req.body.kind) || !(req.body.name) || !(Number.isInteger(parseInt(req.body.age)))) {
       res.status(400);
@@ -82,12 +81,9 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
         kind: req.body.kind,
         name: req.body.name,
       };
-
-      pets.push(newAnimal);
+      pets[id] = newAnimal;
       res.send(newAnimal);
-
     }
-
 
     const petsString = JSON.stringify(pets);
 
