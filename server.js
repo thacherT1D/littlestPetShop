@@ -130,13 +130,15 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(req.body.age);
     }
-    if (req.body.kind) {
+    else if (req.body.kind) {
+      pets[id].kind = req.body.kind;
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
       res.send(req.body.age);
     }
 
-    if (req.body.name) {
+    else if (req.body.name) {
+      pets[id].name = req.body.name;
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
       res.send(req.body.age);
