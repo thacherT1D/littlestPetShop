@@ -1,12 +1,21 @@
-const express = require('express');
-const app = express();
+'use strict'
 
 const fs = require('fs');
 const path = require('path');
 const petsPath = path.join(__dirname, 'pets.json');
 
+const express = require('express');
+const app = express();
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+var morgan = require('morgan');
+app.use(morgan('short'));
+
 fs.readFile(petsPath, 'utf8', (err, data) => {
   const pets = JSON.parse(data);
+
   app.post('/pets', (req, res) => {
     var body = '';
     req.on('data', (chunk) => {
@@ -16,6 +25,9 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
       if (body !== '') {
         req.body = JSON.parse(body);
       }
+  // app.post('/pets', function(req, res) {
+  //   res.send(pets);
+  // });
 
       if (!(req.body.age) || !(req.body.kind) || !(req.body.name) || !(Number.isInteger(parseInt(req.body.age)))) {
         res.status(400);
@@ -60,7 +72,20 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
       res.send('Not found');
     }
   });
+
+  app.delete('/pets/:id', function(req, res){
+    var id = Number.parseInt(req.params.id);
+
+    if(Number.isNaN(id) || id < 0 || id >= pets.length) {
+      return res.sendStatus(404);
+    }
+
+    var pet = pets.splice(id, 1)[0];
+    res.send(pet);
+  });
 });
+
+
 
 app.listen(5000, () => {
   console.log('Go to localhost:5000/');
