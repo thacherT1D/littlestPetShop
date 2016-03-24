@@ -32,7 +32,7 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
     }
   });
 
-    const petsString = JSON.stringify(pets);
+  const petsString = JSON.stringify(pets);
 
   fs.writeFile(petsPath, petsString, (err, data) => {
     if (err) {
@@ -40,52 +40,53 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
     } else {
       res.send(petsString);
     }
+  });
 
-    app.post('/pets', function(req, res) {
-      if (!(req.body.age) || !(req.body.kind) || !(req.body.name) || !(Number.isInteger(parseInt(req.body.age)))) {
-        res.status(400);
-        res.send('Bad Request');
-      } else {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
 
-        const newAnimal = {
-          age: parseInt(req.body.age),
-          kind: req.body.kind,
-          name: req.body.name,
-        };
+  app.post('/pets', function(req, res) {
+    if (!(req.body.age) || !(req.body.kind) || !(req.body.name) || !(Number.isInteger(parseInt(req.body.age)))) {
+      res.status(400);
+      res.send('Bad Request');
+    } else {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
 
-        pets.push(newAnimal);
-        res.send(newAnimal);
-      }
-    });
+      const newAnimal = {
+        age: parseInt(req.body.age),
+        kind: req.body.kind,
+        name: req.body.name,
+      };
 
-    app.put('/pets/:id', (req, res) => {
-      var id = Number.parseInt(req.params.id);
+      pets.push(newAnimal);
+      res.send(newAnimal);
+    }
+  });
 
-      if(Number.isNaN(id) || id < 0 || id >= pets.length) {
-        return res.sendStatus(404);
-      }
+  app.put('/pets/:id', (req, res) => {
+    var id = Number.parseInt(req.params.id);
 
-      var pet = req.body;
+    if(Number.isNaN(id) || id < 0 || id >= pets.length) {
+      return res.sendStatus(404);
+    }
 
-      if(!pet) {
-        return res.sendStatus(404);
-      }
-      pets[id] = pet;
-      res.send(pet);
-    });
+    var pet = req.body;
 
-    app.delete('/pets/:id', function(req, res){
-      var id = Number.parseInt(req.params.id);
+    if(!pet) {
+      return res.sendStatus(404);
+    }
+    pets[id] = pet;
+    res.send(pet);
+  });
 
-      if(Number.isNaN(id) || id < 0 || id >= pets.length) {
-        return res.sendStatus(404);
-      }
+  app.delete('/pets/:id', function(req, res){
+    var id = Number.parseInt(req.params.id);
 
-      var pet = pets.splice(id, 1)[0];
-      res.send(pet);
-    });
+    if(Number.isNaN(id) || id < 0 || id >= pets.length) {
+      return res.sendStatus(404);
+    }
+
+    var pet = pets.splice(id, 1)[0];
+    res.send(pet);
   });
 });
 
