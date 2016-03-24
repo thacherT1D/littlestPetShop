@@ -115,7 +115,52 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
       }
     });
   });
+
+  app.patch('/pets/:id', (req, res) => {
+    var id = Number.parseInt(req.params.id);
+
+    if (Number.isNaN(id) || id < 0 || id >= pets.length) {
+      return res.sendStatus(404);
+    }
+
+    if (req.body.age && (Number.isInteger(parseInt(req.body.age)))) {
+    pets[id].age = parseInt(req.body.age);
+
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.send(req.body.age);
+    }
+    if (req.body.kind) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.send(req.body.age);
+    }
+
+    if (req.body.name) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.send(req.body.age);
+    }
+
+    else{
+      res.status(400);
+      res.send('Bad Request');
+    }
+
+    const petsString = JSON.stringify(pets);
+
+    fs.writeFile(petsPath, petsString, (err, data) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(petsString);
+      }
+    });
+  });
+
 });
+
+
 
 app.listen(5000, () => {
   console.log('Go to localhost:5000/');
