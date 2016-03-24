@@ -32,16 +32,6 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
     }
   });
 
-  const petsString = JSON.stringify(pets);
-
-  fs.writeFile(petsPath, petsString, (err, data) => {
-    if (err) {
-      throw err;
-    } else {
-      res.send(petsString);
-    }
-  });
-
 
   app.post('/pets', function(req, res) {
     if (!(req.body.age) || !(req.body.kind) || !(req.body.name) || !(Number.isInteger(parseInt(req.body.age)))) {
@@ -60,6 +50,17 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
       pets.push(newAnimal);
       res.send(newAnimal);
     }
+
+    const petsString = JSON.stringify(pets);
+
+    fs.writeFile(petsPath, petsString, (err, data) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(petsString);
+      }
+    });
+
   });
 
   app.put('/pets/:id', (req, res) => {
@@ -69,13 +70,35 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
       return res.sendStatus(404);
     }
 
-    var pet = req.body;
+    if (!(req.body.age) || !(req.body.kind) || !(req.body.name) || !(Number.isInteger(parseInt(req.body.age)))) {
+      res.status(400);
+      res.send('Bad Request');
+    } else {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
 
-    if(!pet) {
-      return res.sendStatus(404);
+      const newAnimal = {
+        age: parseInt(req.body.age),
+        kind: req.body.kind,
+        name: req.body.name,
+      };
+
+      pets.push(newAnimal);
+      res.send(newAnimal);
+
     }
-    pets[id] = pet;
-    res.send(pet);
+
+
+    const petsString = JSON.stringify(pets);
+
+    fs.writeFile(petsPath, petsString, (err, data) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(petsString);
+      }
+    });
+
   });
 
   app.delete('/pets/:id', function(req, res){
@@ -87,6 +110,16 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
 
     var pet = pets.splice(id, 1)[0];
     res.send(pet);
+
+    const petsString = JSON.stringify(pets);
+
+    fs.writeFile(petsPath, petsString, (err, data) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(petsString);
+      }
+    });
   });
 });
 
