@@ -1,5 +1,7 @@
 # The Full-Stack Pet Shop
 
+DEPLOYED URL: https://littlestpetshop.herokuapp.com
+
 This is a multi-day assignment split into the following parts. Your task is to complete each part's assignment, one at a time, before moving on to the next part.
 
 1. [Node Filesystem](1_fs.md)
