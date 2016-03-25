@@ -10,6 +10,8 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+app.set('port', process.env.PORT || 5000);
+
 const morgan = require('morgan');
 app.use(morgan('short'));
 
@@ -168,7 +170,6 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
   }
 });
 
-
-app.listen(5000, () => {
+app.listen(app.get('port'), () => {
   console.log('Go to localhost:5000/');
 });
