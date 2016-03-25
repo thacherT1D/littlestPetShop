@@ -4,7 +4,7 @@
   "description": "This is a multi-day assignment split into the following parts. Your task is to complete each part's assignment, one at a time, before moving on to the next part.",
   "main": "server.js",
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
