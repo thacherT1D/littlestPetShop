@@ -15,18 +15,39 @@ app.set('port', process.env.PORT || 5000);
 const morgan = require('morgan');
 app.use(morgan('short'));
 
+var basicAuth = require('basic-auth');
+
+var auth = function (req, res, next) {
+  function unauthorized(res) {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    return res.send(401);
+  };
+
+  var user = basicAuth(req);
+
+  if (!user || !user.name || !user.pass) {
+    return unauthorized(res);
+  };
+
+  if (user.name === 'guest' && user.pass === 'password') {
+    return next();
+  } else {
+    return unauthorized(res);
+  };
+};
+
 fs.readFile(petsPath, 'utf8', (err, data) => {
   if (err) {
     return next(err);
   } else {
     const pets = JSON.parse(data);
 
-    app.get('/pets', (req, res) => {
+    app.get('/pets', auth, (req, res) => {
       res.statusCode = 200;
       res.send(pets);
     });
 
-    app.get('/pets/:id', (req, res) => {
+    app.get('/pets/:id', auth, (req, res) => {
       const givenId = req.params.id;
       if (givenId >= 0 && givenId < pets.length) {
         const currentPet = pets[givenId];
@@ -38,7 +59,7 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
       }
     });
 
-    app.post('/pets', (req, res) => {
+    app.post('/pets', auth, (req, res) => {
       if (!(req.body.age) || !(req.body.kind) || !(req.body.name) || !(Number.isInteger(parseInt(req.body.age)))) {
         res.status(400);
         res.send('Bad Request');
@@ -67,7 +88,7 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
       });
     });
 
-    app.put('/pets/:id', (req, res) => {
+    app.put('/pets/:id', auth, (req, res) => {
       const id = Number.parseInt(req.params.id);
 
       if (Number.isNaN(id) || id < 0 || id >= pets.length) {
@@ -101,7 +122,7 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
       });
     });
 
-    app.delete('/pets/:id', (req, res) => {
+    app.delete('/pets/:id', auth, (req, res) => {
       const id = Number.parseInt(req.params.id);
 
       if (Number.isNaN(id) || id < 0 || id >= pets.length) {
@@ -122,7 +143,7 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
       });
     });
 
-    app.patch('/pets/:id', (req, res) => {
+    app.patch('/pets/:id', auth, (req, res) => {
       const id = Number.parseInt(req.params.id);
 
       if (Number.isNaN(id) || id < 0 || id >= pets.length) {
